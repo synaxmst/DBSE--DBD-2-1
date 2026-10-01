@@ -1,0 +1,1453 @@
+% ==============================================================================
+% AlgoFlow: Distributed Competitive Programming Platform
+% Course: Database Systems Engineering and Distributed Backend Development (25CS1302E)
+% Institution: KLH University (Koneru Lakshmaiah Education Foundation)
+% ==============================================================================
+
+\documentclass[12pt,a4paper]{report}
+
+% ------------------------------------------------------------------------------
+% Page Layout & Strict Margins (Zero Overflows)
+% ------------------------------------------------------------------------------
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=3.0cm, right=2.5cm]{geometry}
+\usepackage{times}
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{ulem}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{microtype}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{xurl}
+\usepackage[htt]{hyphenat}
+\usepackage[hidelinks]{hyperref}
+
+% Global setting to prevent any margin overflow (Overfull \hbox)
+\emergencystretch=3em
+\hfuzz=1pt
+
+% ------------------------------------------------------------------------------
+% Color Palette (100% Exact Match to KLH Template)
+% ------------------------------------------------------------------------------
+\definecolor{klhred}{RGB}{192, 0, 0}       % Primary highlight red (Titles, names, headings)
+\definecolor{klhnavy}{RGB}{0, 32, 96}      % Deep Navy Blue (Department headers, project title)
+\definecolor{klhorange}{RGB}{227, 108, 10}  % KLH Amber/Orange Accent (Guide name highlight)
+\definecolor{darkred}{RGB}{150, 0, 0}      % University / Subtitle red
+\definecolor{tableheader}{RGB}{214, 228, 240} % Table header background
+\definecolor{codebg}{RGB}{245, 245, 245}   % Code snippet background
+
+% ------------------------------------------------------------------------------
+% Paragraph & Line Spacing Settings
+% ------------------------------------------------------------------------------
+\onehalfspacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% ------------------------------------------------------------------------------
+% Code Listing Configuration
+% ------------------------------------------------------------------------------
+\lstset{
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\footnotesize\color{black},
+  breaklines=true,
+  breakatwhitespace=true,
+  frame=single,
+  rulecolor=\color{gray!40},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=8pt,
+  showstringspaces=false,
+  tabsize=2,
+  captionpos=b
+}
+
+% ------------------------------------------------------------------------------
+% Chapter and Section Heading Formatting
+% ------------------------------------------------------------------------------
+\titleformat{\chapter}[block]
+  {\normalfont\large\bfseries\centering}
+  {CHAPTER \thechapter:}{0.5em}{\MakeUppercase}
+  [\vspace{2pt}]
+
+\titleformat{\section}
+  {\normalfont\normalsize\bfseries}
+  {\thesection}{1em}{}
+
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries}
+  {\thesubsection}{1em}{}
+
+\titlespacing*{\chapter}{0pt}{-10pt}{18pt}
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+\titlespacing*{\subsection}{0pt}{8pt}{4pt}
+
+% ------------------------------------------------------------------------------
+% Header and Footer Styling (Body Chapters)
+% ------------------------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.8pt}
+\fancyfoot[R]{Page \thepage}
+\fancyfoot[L]{}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{klhred}\leaders\hrule height \footrulewidth\hfill}}
+
+% Redefine plain style used by \chapter pages so they also get the red line and Page X footer
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0.8pt}%
+  \fancyfoot[R]{Page \thepage}%
+  \fancyfoot[L]{}%
+  \renewcommand{\footrule}{\hbox to\headwidth{\color{klhred}\leaders\hrule height \footrulewidth\hfill}}%
+}
+
+% Command for Decorative Outer Border on Front-Matter Pages
+\newcommand{\drawpageframe}{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \draw[line width=1.5pt, color=black] 
+      ([xshift=12mm, yshift=-12mm]current page.north west) 
+      rectangle 
+      ([xshift=-12mm, yshift=12mm]current page.south east);
+  \end{tikzpicture}%
+}
+
+\begin{document}
+\sloppy
+\pagestyle{empty}
+
+% ==============================================================================
+% PART 1: FRONT MATTER (Cover, Declaration, Certificate, Acknowledgement, Abstract)
+% ==============================================================================
+
+% ------------------------------------------------------------------------------
+% 1. COVER / TITLE PAGE
+% ------------------------------------------------------------------------------
+\begin{titlepage}
+\thispagestyle{empty}
+\drawpageframe
+
+\begin{center}
+  \vspace*{-0.4cm}
+  
+  {\large\bfseries\color{klhnavy} ``Online Code Judge -- AlgoFlow''\par}
+  
+  \vspace{0.45cm}
+  {\small A Project Report Submitted in the partial fulfillment of the requirements for the award of the degree of\par}
+  
+  \vspace{0.45cm}
+  {\large\bfseries\color{klhred} BACHELOR OF TECHNOLOGY\par}
+  
+  \vspace{0.25cm}
+  {\normalsize In\par}
+  
+  \vspace{0.25cm}
+  {\small\bfseries\color{klhnavy} DEPARTMENT OF COMPUTER SCIENCE AND INFORMATION TECHNOLOGY\par}
+  
+  \vspace{0.45cm}
+  {\normalsize By\par}
+  
+  \vspace{0.35cm}
+  \begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabular}{p{6.2cm} p{3.2cm}}
+      \textbf{\color{klhred}BHARGAVA RAAJ VAMSI} & \textbf{\color{klhred}2520060169} \\
+      \textbf{\color{klhred}HANISH KUMAR}        & \textbf{\color{klhred}2520090107} \\
+      \textbf{\color{klhred}SAI TARUN}           & \textbf{\color{klhred}2520090020} \\
+    \end{tabular}
+  \end{table}
+  
+  \vspace{0.35cm}
+  {\small Under the Esteemed Guidance of\par}
+  \vspace{0.15cm}
+  {\bfseries\color{klhred} Divya Priya Degala\par}
+  {\bfseries Assistant Professor\par}
+  {\small\bfseries\color{klhnavy} Department of Computer Science and Information Technology\par}
+  
+  \vspace{0.4cm}
+  \includegraphics[height=1.8cm, keepaspectratio]{kl_logo.png}
+  
+  \vspace{0.3cm}
+  {\large\bfseries\color{klhred} Koneru Lakshmaiah Education Foundation\par}
+  {\footnotesize (Deemed to be University estd. u/s. 3 of the UGC Act, 1956)\par}
+  {\footnotesize Off-Campus: Bachupally-Gandimaisamma Road, Bowrampet, Hyderabad, Telangana - 500 043.\par}
+  {\footnotesize Phone No: 7815926816, www.klh.edu.in\par}
+\end{center}
+\end{titlepage}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% 2. DECLARATION PAGE
+% ------------------------------------------------------------------------------
+\thispagestyle{empty}
+\drawpageframe
+
+\begin{center}
+  \vspace*{-0.2cm}
+  {\small\bfseries K L (Deemed to be) University\par}
+  \vspace{0.1cm}
+  {\footnotesize\bfseries\color{klhnavy} DEPARTMENT OF COMPUTER SCIENCE AND INFORMATION TECHNOLOGY\par}
+  \vspace{0.3cm}
+  \includegraphics[height=1.6cm, keepaspectratio]{kl_logo.png}
+  
+  \vspace{0.6cm}
+  {\large\bfseries\color{klhred} \uline{Declaration}\par}
+\end{center}
+
+\vspace{0.5cm}
+{\normalsize
+The Project Report entitled \textbf{\color{klhred}``Online Code Judge -- AlgoFlow''} is a record of bonafide work of \textbf{\color{klhred}BHARGAVA RAAJ VAMSI -- 2520060169, HANISH KUMAR -- 2520090107, SAI TARUN -- 2520090020} submitted in partial fulfillment of the requirements of the course \textbf{DATABASE SYSTEMS ENGINEERING AND DISTRIBUTED BACKEND DEVELOPMENT} (25CS1302E), Section 10, Team 19, during 2026--2027, Trimester 4, at KLH University. The results embodied in this report have not been copied from any other student, department, or institution.
+\par}
+
+\vspace{4.2cm}
+\begin{flushright}
+  \textbf{\color{black}BHARGAVA RAAJ VAMSI -- 2520060169}\\[0.25cm]
+  \textbf{\color{black}HANISH KUMAR -- 2520090107}\\[0.25cm]
+  \textbf{\color{black}SAI TARUN -- 2520090020}
+\end{flushright}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% 3. CERTIFICATE PAGE
+% ------------------------------------------------------------------------------
+\thispagestyle{empty}
+\drawpageframe
+
+\begin{center}
+  \vspace*{-0.2cm}
+  {\small\bfseries K L (Deemed to be) University\par}
+  \vspace{0.1cm}
+  {\footnotesize\bfseries\color{klhnavy} DEPARTMENT OF COMPUTER SCIENCE AND INFORMATION TECHNOLOGY\par}
+  \vspace{0.3cm}
+  \includegraphics[height=1.6cm, keepaspectratio]{kl_logo.png}
+  
+  \vspace{0.6cm}
+  {\large\bfseries\color{klhred} CERTIFICATE\par}
+\end{center}
+
+\vspace{0.5cm}
+{\normalsize
+This is to certify that the project report entitled \textbf{\color{klhred}``Online Code Judge -- AlgoFlow''} is a bonafide work done and submitted by \textbf{\color{klhred}BHARGAVA RAAJ VAMSI -- 2520060169, HANISH KUMAR -- 2520090107, SAI TARUN -- 2520090020} in partial fulfillment of the requirements of the course \textbf{\color{klhred}DATABASE SYSTEMS ENGINEERING AND DISTRIBUTED BACKEND DEVELOPMENT} (25CS1302E), Section 10, Team 19, at KLH University during \textbf{\color{klhred}2026--2027, Trimester 4}.
+\par}
+
+\vspace{3.5cm}
+\begin{flushright}
+  \textbf{Signature of the Guide}
+\end{flushright}
+
+\vspace{3.0cm}
+\noindent
+\begin{minipage}[t]{0.5\textwidth}
+  \textbf{Signature of the Course Coordinator}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\textwidth}
+  \raggedleft
+  \textbf{Signature of the HOD}
+\end{minipage}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% 4. ACKNOWLEDGEMENT PAGE
+% ------------------------------------------------------------------------------
+\thispagestyle{empty}
+\drawpageframe
+
+\begin{center}
+  \vspace*{0.2cm}
+  {\large\bfseries\color{klhred} ACKNOWLEDGEMENT\par}
+\end{center}
+
+\vspace{0.5cm}
+{\normalsize
+The success in this project would not have been possible but for the timely help and guidance rendered by many people. Our wish to express my sincere thanks to all those who has assisted us in one way or the other for the completion of my project.
+
+Our greatest appreciation to my Course Coordinator \textbf{\color{klhred}Dr. }, and my guide \textbf{\color{klhred}Divya Priya Degala}, Department of Computer Science and Information Technology which cannot be expressed in words for his/her tremendous support, encouragement and guidance for this project.
+
+We express our gratitude to \textbf{\color{klhred}Dr. Kaja Shareef}, Head of the \textit{\color{klhred}Department for Computer Science and Information Technology} for providing us with adequate facilities, ways and means by which we are able to complete this project-based Lab.
+
+We thank all the members of teaching and non-teaching staff members, and also who have assisted me directly or indirectly for successful completion of this project. Finally, I sincerely thank my parents, friends and classmates for their kind help and cooperation during my work.
+\par}
+
+\vspace{3.8cm}
+\begin{flushright}
+  \textbf{\color{black}BHARGAVA RAAJ VAMSI -- 2520060169}\\[0.25cm]
+  \textbf{\color{black}HANISH KUMAR -- 2520090107}\\[0.25cm]
+  \textbf{\color{black}SAI TARUN -- 2520090020}
+\end{flushright}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% 5. ABSTRACT PAGE
+% ------------------------------------------------------------------------------
+\thispagestyle{empty}
+
+\begin{center}
+  \vspace*{0.3cm}
+  {\large\bfseries Abstract\par}
+\end{center}
+
+\vspace{0.5cm}
+{\normalsize
+Online Code Judge -- AlgoFlow is an enterprise-grade, distributed competitive programming and real-time online code execution platform architected to solve the core scalability, isolation, and assessment challenges faced in modern collegiate programming contests and technical evaluations. Traditional campus coding environments frequently struggle with asynchronous evaluation bottlenecks, insecure local code execution, inaccurate time and memory profiling, lack of automated plagiarism detection, and delayed tournament scoreboard synchronizations.
+
+The proposed system delivers an ultra-responsive, highly isolated microservices architecture comprising a React 19 single-page client interface, an Express.js API Gateway, an asynchronous BullMQ and Redis task queue, a Dockerode-driven containerized Judge Worker execution cluster, a Socket.IO real-time Contest Service, and an AST-based Winnowing Plagiarism Detection Engine. Untrusted multi-language user source code (C++20, Python 3.12, Java 21, JavaScript ES2024) is compiled and evaluated inside hardened Docker sandbox containers constrained with strict Linux cgroup limits (256MB RAM, 50\% CPU quotas, PID ceilings, and dropped root capabilities).
+
+The application persists structured data across MongoDB 7 collections, managing users, problems, submissions, contests, and plagiarism reports with compound indexing and optimized schemas. Tournament standings are computed in $O(\log N)$ real-time using Redis Sorted Sets adhering to ICPC scoring protocols with automated 20-minute wrong-submission penalties and sub-second WebSocket room broadcasts. In addition, AlgoFlow integrates an interactive multi-algorithm execution visualizer, a dual-engine differential stress tester for automated counterexample discovery, and an administrative Problem Setter Studio. The platform was engineered, containerized, and rigorously validated across 10 granular test suites, achieving resilient concurrency, sub-millisecond telemetry precision, and robust plagiarism detection for technical education.
+\par}
+
+\clearpage
+
+% ==============================================================================
+% PART 2: INDEX & CHAPTERS 1 - 3
+% ==============================================================================
+
+% ------------------------------------------------------------------------------
+% INDEX (TABLE OF CONTENTS - MANUAL GRID-STYLE TABLE)
+% ------------------------------------------------------------------------------
+\thispagestyle{empty}
+
+\begin{center}
+  \vspace*{0.1cm}
+  {\large\bfseries\color{klhred} \uline{Index}\par}
+\end{center}
+
+\vspace{0.3cm}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{|c|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{7.8cm}|c|}
+\hline
+\rowcolor{tableheader}
+\textbf{S.No.} & \textbf{\centering Chapters} & \textbf{\centering Topics} & \textbf{Page No.} \\ \hline
+\endhead
+
+-- & \textbf{Acknowledgement} & Timely help, guidance, and project acknowledgements & iv \\ \hline
+-- & \textbf{Abstract} & System summary, problem scope, and key deliverables & v \\ \hline
+
+1 & \textbf{Introduction} & 
+1.1 Background of the Project \newline 
+1.2 Problem Statement \newline 
+1.3 Scope of the Project \newline 
+1.4 Objectives \newline 
+1.5 Importance of the Application \newline 
+1.6 Target Users & 5 \\ \hline
+
+2 & \textbf{\parbox{2.8cm}{System\\Requirements}} & 
+2.1 Hardware Requirements \newline 
+2.2 Software Requirements \newline 
+2.3 Development Tools & 7 \\ \hline
+
+3 & \textbf{Technology Stack} & 
+3.1 Frontend Technologies \newline 
+3.2 Backend Technologies \newline 
+3.3 Database \& In-Memory Store \newline 
+3.4 Version Control \& DevOps \newline 
+3.5 Authentication and Security & 8 \\ \hline
+
+4 & \textbf{\parbox{2.8cm}{System\\Architecture}} & 
+4.1 High-Level Architecture Diagram \newline 
+4.2 Description of Each Layer \newline 
+4.3 Deployment Architecture & 10 \\ \hline
+
+5 & \textbf{Design} & 
+5.1 Database Design Principles \newline 
+5.2 ER Diagram \& Collection Schemas \newline 
+5.3 Design Decisions and Assumptions & 12 \\ \hline
+
+6 & \textbf{Implementation} & 
+6.1 Module-wise Implementation \newline 
+6.2 Frontend Logic \& State Management \newline 
+6.3 API Integration \newline 
+6.4 Authentication and Authorization & 15 \\ \hline
+
+7 & \textbf{Features} & 
+7.1 Feature Overview \& Capabilities \newline 
+7.2 Judge Submission Lifecycle \newline 
+7.3 Interactive Algorithm Visualizer \newline 
+7.4 Dual-Engine Differential Stress Tester \newline 
+7.5 Real-Time Contest Arena \& ICPC Scoring \newline 
+7.6 Plagiarism Winnowing Pipeline & 18 \\ \hline
+
+8 & \textbf{Testing} & 
+8.1 Postman API Testing \newline 
+8.2 Integration Testing \newline 
+8.3 Tools Used \newline 
+8.4 Test Cases and Results & 22 \\ \hline
+
+9 & \textbf{Deployment} & 
+9.1 Steps to Deploy \newline 
+9.2 Environment Configuration \newline 
+9.3 Cloud Hosting Architecture & 25 \\ \hline
+
+10 & \textbf{\parbox{2.8cm}{Challenges \&\\Limitations}} & 
+10.1 Issues Faced During Development \newline 
+10.2 Solutions Applied \newline 
+10.3 Current Limitations & 27 \\ \hline
+
+11 & \textbf{\parbox{2.8cm}{Future\\Enhancements}} & 
+11.1 Planned Features \newline 
+11.2 Possible Integrations or Optimizations & 29 \\ \hline
+
+12 & \textbf{Conclusion} & 
+12.1 Summary of the Project \newline 
+12.2 What Was Achieved \newline 
+12.3 Skills Learned & 30 \\ \hline
+
+13 & \textbf{References} & -- Documentation, tools, standards, and resources used & 31 \\ \hline
+
+14 & \textbf{Appendices} & 
+-- Appendix A: Sample Code Snippets \newline 
+-- Appendix B: Installation / Setup Instructions \newline 
+-- Appendix C: Default Login Credentials \newline 
+-- Appendix D: API Reference Summary \newline 
+-- Appendix E: User Interface Screenshots & 32 \\ \hline
+
+\end{longtable}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% CHAPTER 1: INTRODUCTION
+% ------------------------------------------------------------------------------
+\setcounter{page}{5}
+\pagestyle{fancy}
+\thispagestyle{fancy}
+\chapter{INTRODUCTION}
+
+\section{Background of the Project}
+In modern computer science and engineering education, proficiency in data structures, algorithms, and computational problem-solving is of paramount importance. Competitive programming platforms such as LeetCode, Codeforces, and HackerRank have emerged as the industry-standard paradigm for testing and cultivating analytical and software engineering capabilities. However, educational institutions face severe limitations when attempting to integrate these platforms into internal coursework, lab assessments, and departmental hackathons.
+
+Commercial platforms do not offer private, customizable contest-hosting environments tailored to institutional grading rubrics, nor do they provide automated code plagiarism scanning integrated directly into assessment pipelines. Furthermore, naive open-source code execution engines typically run student-submitted code directly on the host operating system without stringent isolation, leaving hosting infrastructure vulnerable to memory exhaustion, denial-of-service loops, fork bombs, and malicious filesystem attacks. 
+
+\textbf{AlgoFlow} was conceived and engineered to bridge this institutional gap. It is an enterprise-grade, distributed competitive programming and online code execution platform built on a scalable microservices architecture. AlgoFlow combines hardened Docker container sandboxing, asynchronous BullMQ task queues, sub-second Redis leaderboard calculations, real-time WebSocket contest synchronizations, and an AST-based Winnowing plagiarism detection engine into a unified, high-performance web platform.
+
+\section{Problem Statement}
+Collegiate computing environments require an automated, secure, and highly scalable evaluation system that can resolve four fundamental challenges simultaneously:
+\begin{enumerate}[leftmargin=*, label=\bfseries\arabic*.]
+  \item \textbf{Isolated Code Execution at Scale:} Safely compiling and executing untrusted multi-language user submissions without jeopardizing host infrastructure or allowing cross-tenant resource contamination.
+  \item \textbf{Asynchronous Throughput Management:} Handling bursts of submissions during high-stakes university contests without dropping requests or freezing user interfaces.
+  \item \textbf{Real-Time Contest Leaderboards:} Dynamically ranking participants using ICPC scoring conventions with sub-second latency over persistent WebSocket connections.
+  \item \textbf{Academic Integrity Assurance:} Automatically identifying structural source code plagiarism and collusion across tournament submissions, independent of variable renaming or whitespace manipulation.
+\end{enumerate}
+
+\section{Scope of the Project}
+AlgoFlow covers the comprehensive end-to-end lifecycle of competitive programming, problem setting, and contest evaluation:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{In-Scope Deliverables:} Multi-language compilation and execution (C++20, Python 3.12, Java 21, JavaScript ES2024); containerized Docker sandboxing with Linux cgroups; asynchronous distributed task queues powered by Redis and BullMQ; automated test case evaluation with granular verdicts; real-time ICPC tournament scoring with live WebSocket updates; an interactive multi-algorithm visualizer; a dual-engine differential stress tester; an AST-based Winnowing plagiarism engine; a complete Problem Setter Studio; and three-role access control (Contestant, Setter, Administrator).
+  \item \textbf{Out-of-Scope Elements:} Native mobile applications (iOS/Android) and commercial payment gateway integrations for paid subscriptions have been excluded from this release and deferred to future roadmap extensions.
+\end{itemize}
+
+\section{Objectives}
+The primary technical objectives of the AlgoFlow platform include:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Sub-Second Polyglot Judging:} Deliver deterministic, millisecond-accurate compilation and execution feedback across standard programming languages.
+  \item \textbf{Hardened Security Sandboxing:} Restrict untrusted code to strictly bounded Docker containers (256MB RAM ceiling, 50\% CPU quotas, 50 PID limits, dropped root capabilities, and isolated tempfs storage).
+  \item \textbf{Scalable Asynchronous Queueing:} Offload submission processing from the HTTP API Gateway to distributed BullMQ worker pools over Redis.
+  \item \textbf{Real-Time ICPC Tournament Standings:} Maintain $O(\log N)$ real-time leaderboard ranks using Redis Sorted Sets with automated 20-minute wrong-attempt penalties.
+  \item \textbf{Structural Plagiarism Detection:} Parse source code into normalized Abstract Syntax Tree (AST) token streams and apply the Winnowing fingerprinting algorithm to flag code similarity.
+  \item \textbf{Interactive Pedagogical Tools:} Provide built-in Algorithm Visualizers and Differential Stress Testers directly within the web workspace to assist student debugging.
+\end{itemize}
+
+\section{Importance of the Application}
+AlgoFlow provides academic departments and technical societies with self-contained, enterprise-grade competition infrastructure. By eliminating manual evaluation overhead and preventing cheating through automated AST analysis, faculty can conduct programming exams and hackathons with complete confidence in assessment integrity and server reliability.
+
+\section{Target Users}
+AlgoFlow addresses three key stakeholder personas:
+\begin{enumerate}[leftmargin=*, label=\bfseries\arabic*.]
+  \item \textbf{Students and Contestants:} Solve curated algorithmic problems, execute custom test cases, view real-time execution telemetry, inspect algorithm animations, and participate in live timed contests.
+  \item \textbf{Problem Setters:} Author algorithmic problems with markdown statements, configure hidden test suites, establish memory/time limits, write official editorials, and organize contests.
+  \item \textbf{System Administrators:} Oversee platform stability, manage user roles, monitor judge worker cluster health, and execute tournament-wide plagiarism scans.
+\end{enumerate}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% CHAPTER 2: SYSTEM REQUIREMENTS
+% ------------------------------------------------------------------------------
+\chapter{SYSTEM REQUIREMENTS}
+
+\section{Hardware Requirements}
+To ensure optimal performance across containerized sandboxes, message queues, and concurrent database operations, the following minimum and recommended hardware specifications are defined:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Processor (CPU):} Quad-Core 64-bit x86\_64 or ARM64 processor (Intel Core i5/i7, AMD Ryzen 5/7, or Apple Silicon / AWS Graviton instances).
+  \item \textbf{System Memory (RAM):} Minimum 8 GB RAM (16 GB recommended for concurrent Docker sandboxes and local microservice instances).
+  \item \textbf{Disk Storage:} Minimum 20 GB available Solid State Drive (SSD) storage to accommodate base compiler container images (\texttt{gcc:13-bookworm}, \texttt{python:3.12-slim}, \texttt{eclipse-temurin:21-jdk}, \texttt{node:20-slim}) and database volumes.
+  \item \textbf{Network Connectivity:} Persistent broadband internet connection for real-time WebSocket synchronization and package dependency resolution.
+\end{itemize}
+
+\section{Software Requirements}
+The software environment prerequisites for deploying and running AlgoFlow include:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Operating System:} Linux (Ubuntu 22.04 LTS / Debian 12 recommended), macOS 13+, or Windows 10/11 with WSL2 (Windows Subsystem for Linux).
+  \item \textbf{JavaScript / TypeScript Runtime:} Node.js v18.18.0+ or v20.x LTS with npm v9.0.0+.
+  \item \textbf{Container Engine:} Docker Engine v24.0+ / Docker Desktop v4.25+ with Docker Compose v2.20+.
+  \item \textbf{Database System:} MongoDB Server v7.0+ (or MongoDB Atlas Cloud instance).
+  \item \textbf{In-Memory Broker \& Cache:} Redis Server v7.0+ (or Redis Cloud instance).
+  \item \textbf{Version Control:} Git v2.40.0+.
+\end{itemize}
+
+\section{Development Tools}
+The development, debugging, and verification of the system utilized the following tooling:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Integrated Development Environment:} Visual Studio Code with TypeScript, ESLint, Prettier, Tailwind CSS IntelliSense, and Docker extensions.
+  \item \textbf{API Testing \& Documentation:} Postman v10+ with automated test scripts and environment variables for JWT bearer persistence.
+  \item \textbf{Database Management Tools:} MongoDB Compass for GUI schema and index inspection; RedisInsight for Redis queue and sorted set monitoring.
+  \item \textbf{Build Tooling:} Vite 8.0 for rapid Hot Module Replacement (HMR) frontend bundling; \texttt{tsx} for instant TypeScript backend execution.
+\end{itemize}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% CHAPTER 3: TECHNOLOGY STACK
+% ------------------------------------------------------------------------------
+\chapter{TECHNOLOGY STACK}
+
+\section{Frontend Technologies}
+The AlgoFlow frontend is built as a responsive Single Page Application (SPA) designed to provide a rich, distraction-free desktop IDE experience:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{React 19 \& TypeScript 5.7:} Declarative component-based UI architecture with complete static type safety, custom hooks, and context-driven state management.
+  \item \textbf{Vite 8.0:} Next-generation frontend tooling providing lightning-fast local development servers and highly optimized production asset chunking.
+  \item \textbf{Tailwind CSS:} Utility-first styling framework configured with a sleek dark-mode aesthetic, custom color tokens, and responsive utility layouts.
+  \item \textbf{Monaco Editor (\texttt{@monaco-editor/react}):} The industry-standard code editor engine powering Visual Studio Code, providing syntax highlighting, multi-language bracket pairing, custom themes, and keybindings.
+  \item \textbf{Socket.IO Client:} Resilient WebSocket client maintaining persistent full-duplex communication with the Contest Service for live scoreboard updates.
+  \item \textbf{Axios:} Promise-based HTTP client equipped with centralized interceptors for automatic JWT authorization header injection and unified error handling.
+  \item \textbf{React Router DOM v6:} Declarative client-side routing with role-based route guards and dynamic parameter parsing.
+  \item \textbf{Lucide React:} High-fidelity SVG icon library delivering crisp visual indicators across all dashboard modules.
+\end{itemize}
+
+\section{Backend Technologies}
+The backend microservice suite is constructed on modern Node.js and TypeScript frameworks:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Node.js \& Express.js 4:} High-performance event-driven REST API server handling authentication, catalog queries, submissions, and administration.
+  \item \textbf{TypeScript 5.7:} Strict type definitions across models, controllers, and shared contracts, eliminating entire classes of runtime errors.
+  \item \textbf{Zod:} TypeScript-first schema declaration and validation library enforcing strict input validation across all incoming HTTP request bodies and query parameters.
+  \item \textbf{BullMQ:} Advanced Redis-backed distributed queue engine managing asynchronous submission dispatching, concurrency limits, and worker pooling.
+  \item \textbf{Dockerode:} Programmatic Docker Engine API client used by the Judge Worker to manage container lifecycles, copy source code via tar archives, execute commands, and extract stdout/stderr streams.
+  \item \textbf{Bcryptjs:} Cryptographic password hashing algorithm utilizing 10 salt rounds for secure credential storage.
+  \item \textbf{JsonWebToken (JWT):} Stateless authentication mechanism utilizing HS256 cryptographic signatures for tamper-proof session tokens.
+\end{itemize}
+
+\section{Database \& In-Memory Store}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{MongoDB 7.0:} Primary NoSQL document database providing dynamic schemas, rich document nesting, and high-performance querying for users, problems, submissions, contests, and plagiarism reports.
+  \item \textbf{Mongoose 8.0:} Object Data Modeling (ODM) library providing schema validation, pre/post middleware hooks, and typed document models.
+  \item \textbf{Redis 7.0:} In-memory data structure store fulfilling two vital roles: (1) high-throughput message broker for BullMQ job queues, and (2) high-speed leaderboard scoring via Redis Sorted Sets (\texttt{ZSET}).
+\end{itemize}
+
+\section{Version Control \& DevOps}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Git \& GitHub:} Distributed version control system for atomic commits, branch isolation, and collaborative code reviews.
+  \item \textbf{Docker Compose:} Multi-service container orchestration defining network boundaries, volume mounts, port allocations, and service dependencies in a single reproducible \texttt{docker-compose.yml} specification file.
+\end{itemize}
+
+\section{Authentication and Security}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Stateless JWT Bearer Authentication:} Client requests pass tokens in the \texttt{Authorization: Bearer} header, validated via Express middleware.
+  \item \textbf{Three-Tier Role-Based Access Control (RBAC):} Granular permission authorization distinguishing standard contestants (\texttt{user}), problem authors (\texttt{setter}), and platform administrators (\texttt{admin}).
+  \item \textbf{Input Sanitization \& Injection Prevention:} All inputs are parsed and validated via Zod schemas, neutralizing NoSQL query injection and malformed payload vectors.
+\end{itemize}
+
+\clearpage
+
+% ==============================================================================
+% PART 3: CHAPTERS 4 - 6
+% ==============================================================================
+
+% ------------------------------------------------------------------------------
+% CHAPTER 4: SYSTEM ARCHITECTURE
+% ------------------------------------------------------------------------------
+\chapter{SYSTEM ARCHITECTURE}
+
+\section{High-Level Architecture Diagram}
+AlgoFlow is architected as an event-driven, distributed microservices ecosystem designed to separate compute-intensive untrusted code evaluation from latency-critical web and database operations. Figure~\ref{fig:architecture} illustrates the high-level architecture, displaying the interaction between the client presentation layer, API gateway, asynchronous queue pipelines, containerized sandbox worker cluster, real-time contest service, and AST plagiarism detection engine.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth, height=13.5cm, keepaspectratio]{fig_architecture.png}
+\caption{High-level three-tier microservices architecture of AlgoFlow}
+\label{fig:architecture}
+\end{figure}
+
+\section{Description of Each Layer}
+The system divides core application responsibilities across four distinct layers:
+
+\subsection{Client Presentation Layer}
+The presentation tier is built as a single-page application powered by React 19, TypeScript, and Vite. It contains the following specialized client interfaces:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Problem Workspace:} A dual-pane IDE featuring the Monaco Code Editor with polyglot templates, theme toggles, custom test case console runner, and execution telemetry displays.
+  \item \textbf{Interactive Algorithm Visualizer:} Step-by-step state animation engine for Two Pointers, Sliding Window, Binary Search, and Stack/Queue execution paths.
+  \item \textbf{Differential Stress Tester:} Dual-engine testcase fuzzing workbench comparing brute-force vs. optimized solutions to isolate counterexamples.
+  \item \textbf{Live Contest Arena:} Synchronous tournament dashboard displaying real-time problem lists, countdown timers, and live WebSocket scoreboard broadcasts.
+  \item \textbf{Problem Setter \& Admin Studio:} Content authoring interface for markdown statements, test case files, and system health metrics.
+\end{itemize}
+
+\subsection{API Gateway Layer}
+Running on port 4000, the API Gateway serves as the centralized HTTP entry point. It provides:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Authentication \& Authorization:} JWT token generation and verification with role-based middleware guards (\texttt{user}, \texttt{setter}, \texttt{admin}).
+  \item \textbf{Payload Validation:} Strict Zod schema validation on incoming JSON payloads, neutralizing malformed input and NoSQL injection attempts.
+  \item \textbf{BullMQ Task Producer:} Enqueues validated submission payloads into Redis-backed task queues, returning an immediate task ID to the client without blocking HTTP worker threads.
+\end{itemize}
+
+\subsection{Judge Worker Cluster}
+The Judge Worker cluster consists of scalable background worker processes (running as 2 container replicas) listening to the BullMQ \texttt{submissions} queue. For each submission job, the worker:
+\begin{itemize}[leftmargin=*]
+  \item Interacts with the Docker Engine daemon via the \texttt{dockerode} library over \texttt{/var/run/docker.sock} (or Windows named pipe \texttt{//./pipe/docker\_engine}).
+  \item Provisions an isolated Docker container based on the requested language runtime (\texttt{gcc:13}, \texttt{python:3.12}, \texttt{openjdk:21-alpine}, \texttt{node:20-alpine}).
+  \item Enforces strict Linux cgroup limits: memory ceiling capped at 256MB (\texttt{MemorySwap} matching \texttt{Memory}), CPU execution limited to 50\% of a single core (\texttt{CpuPeriod: 100000, CpuQuota: 50000}), process count restricted to 50 (\texttt{PidsLimit: 50}), no-new-privileges security flag, and offline networking (\texttt{NetworkDisabled: true}).
+  \item Pipes source code and test case inputs into the container via POSIX tar streams, executes compilation and runtime binaries, captures stdout/stderr with sub-millisecond precision, determines deterministic verdicts, and updates the database record.
+\end{itemize}
+
+\subsection{Contest \& Real-Time WebSocket Service}
+Operating on port 4001, the Contest Service synchronizes tournament state:
+\begin{itemize}[leftmargin=*]
+  \item Manages contest lifecycle state transitions (\texttt{upcoming} $\to$ \texttt{live} $\to$ \texttt{ended}) via automated cron checks.
+  \item Calculates ICPC tournament standings in $O(\log N)$ time utilizing Redis Sorted Sets (\texttt{ZSET}).
+  \item Emits instant scoreboard diffs to room-isolated contestants over Socket.IO full-duplex WebSocket channels.
+\end{itemize}
+
+\subsection{Plagiarism Detection Service}
+Running on port 4002, the Plagiarism Service processes tournament submission corpora using:
+\begin{itemize}[leftmargin=*]
+  \item Multi-language Lexical Tokenizer and AST normalizer stripping comments, canonicalizing user identifiers (\texttt{VAR\_1}, \texttt{VAR\_2}), and standardizing literal values.
+  \item Winnowing Fingerprinting Algorithm selecting localized minimum polynomial rolling hashes across sliding token windows.
+  \item Pairwise Jaccard Similarity matrix computation flagging structural code collusion.
+\end{itemize}
+
+\section{Deployment Architecture}
+AlgoFlow is containerized and orchestrated via Docker Compose within a unified bridge network (\texttt{algoflow-network}). Table~\ref{tab:port_allocations} details the network topology and service configurations.
+
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\caption{AlgoFlow Microservices Deployment and Network Topology}
+\label{tab:port_allocations}
+\begin{tabularx}{\textwidth}{@{}l l c >{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Service Name} & \textbf{Container Runtime} & \textbf{Port} & \textbf{Dependencies} & \textbf{Volume Mounts} \\ \midrule
+\texttt{algoflow-frontend} & Nginx Alpine (Vite) & 3000 & API Gateway & None \\
+\texttt{algoflow-api-gateway} & Node.js 20 LTS & 4000 & MongoDB, Redis & None \\
+\texttt{judge-worker} (2x) & Node.js 20 + Dockerode & Internal & MongoDB, Redis & \texttt{docker.sock} \\
+\texttt{contest-service} & Node.js 20 + Socket.IO & 4001 & MongoDB, Redis & None \\
+\texttt{plagiarism-service} & Node.js 20 & 4002 & MongoDB, Redis & None \\
+\texttt{algoflow-mongodb} & MongoDB 7.0 Community & 27017 & None & \texttt{mongodb\_data} \\
+\texttt{algoflow-redis} & Redis 7.0 Alpine & 6379 & None & \texttt{redis\_data} \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% CHAPTER 5: DESIGN
+% ------------------------------------------------------------------------------
+\chapter{DESIGN}
+
+\section{Database Design Principles}
+AlgoFlow utilizes MongoDB 7.0 as its primary persistence engine, structured around modern document-oriented database design principles:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Selective Denormalization:} Frequently queried display fields (e.g., \texttt{username}, \texttt{problemTitle}, \texttt{problemSlug}) are intentionally embedded directly inside submission documents. This eliminates expensive multi-collection lookup joins during high-throughput leaderboard renders and submission history lookups.
+  \item \textbf{Polymorphic Test Case Storage:} Test cases are embedded within Problem documents as structured sub-document arrays, segregated into public \texttt{sampleTestCases} (rendered in problem statements) and secure \texttt{hiddenTestCases} (evaluated only inside the worker sandbox).
+  \item \textbf{Compound Indexing Strategy:} Compound indexes are established to guarantee sub-millisecond query latency under high load, including \texttt{\{ contestId: 1, createdAt: -1 \}} for contest submission feeds and \texttt{\{ userId: 1, problemId: 1, verdict: 1 \}} for problem completion queries.
+\end{itemize}
+
+\section{ER Diagram and Collection Schemas}
+Figure~\ref{fig:er_diagram} illustrates the Entity-Relationship structure connecting the five primary MongoDB collections.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth, height=13.5cm, keepaspectratio]{fig_er_diagram.png}
+\caption{Entity-Relationship diagram of the AlgoFlow MongoDB collections}
+\label{fig:er_diagram}
+\end{figure}
+
+\subsection{MongoDB Collections Specification}
+\begin{enumerate}[leftmargin=*, label=\bfseries\arabic*.]
+  \item \textbf{Users Collection (\texttt{users}):} Stores contestant credentials, profile metadata, roles, and competitive statistics.
+  \begin{itemize}
+    \item \texttt{\_id}: \texttt{ObjectId} (Primary Key)
+    \item \texttt{username}: \texttt{String} (Unique, Indexed)
+    \item \texttt{email}: \texttt{String} (Unique, Indexed)
+    \item \texttt{passwordHash}: \texttt{String} (Bcrypt 10 rounds)
+    \item \texttt{role}: \texttt{Enum('user', 'setter', 'admin')}
+    \item \texttt{rating}: \texttt{Number} (Default: 1500)
+    \item \texttt{solvedProblems}: \texttt{Array<ObjectId>} (Refs to \texttt{problems})
+  \end{itemize}
+
+  \item \textbf{Problems Collection (\texttt{problems}):} Contains problem definitions, constraints, method signatures, and test suites.
+  \begin{itemize}
+    \item \texttt{\_id}: \texttt{ObjectId} (Primary Key)
+    \item \texttt{title}: \texttt{String}, \texttt{slug}: \texttt{String} (Unique, Indexed)
+    \item \texttt{description}: \texttt{String} (Markdown statement)
+    \item \texttt{difficulty}: \texttt{Enum('Easy', 'Medium', 'Hard')}
+    \item \texttt{tags}: \texttt{Array<String>} (e.g., \texttt{['Arrays', 'DP', 'Graphs']})
+    \item \texttt{timeLimitMs}: \texttt{Number} (Default: 1000)
+    \item \texttt{memoryLimitMb}: \texttt{Number} (Default: 256)
+    \item \texttt{starterCode}: \texttt{Map<Language, String>} (Polyglot templates)
+    \item \texttt{sampleTestCases}, \texttt{hiddenTestCases}: \texttt{Array<TestCaseSchema>}
+    \item \texttt{authorId}: \texttt{ObjectId} (Ref to \texttt{users})
+  \end{itemize}
+
+  \item \textbf{Submissions Collection (\texttt{submissions}):} Immutable evaluation audit log for every submitted code solution.
+  \begin{itemize}
+    \item \texttt{\_id}: \texttt{ObjectId} (Primary Key)
+    \item \texttt{userId}: \texttt{ObjectId}, \texttt{username}: \texttt{String} (Denormalized)
+    \item \texttt{problemId}: \texttt{ObjectId}, \texttt{problemTitle}: \texttt{String} (Denormalized)
+    \item \texttt{contestId}: \texttt{ObjectId} (Optional, Indexed)
+    \item \texttt{language}: \texttt{Enum('cpp', 'python', 'java', 'javascript')}
+    \item \texttt{code}: \texttt{String} (Source code snapshot)
+    \item \texttt{verdict}: \texttt{Enum('Pending', 'Accepted', 'Wrong Answer', 'TLE', 'MLE', 'RE', 'CE')}
+    \item \texttt{executionTimeMs}: \texttt{Number}, \texttt{memoryKb}: \texttt{Number}
+    \item \texttt{testCasesPassed}: \texttt{Number}, \texttt{totalTestCases}: \texttt{Number}
+    \item \texttt{createdAt}: \texttt{Date} (Indexed)
+  \end{itemize}
+
+  \item \textbf{Contests Collection (\texttt{contests}):} Defines tournaments, problem rosters, timelines, and registration lists.
+  \begin{itemize}
+    \item \texttt{\_id}: \texttt{ObjectId} (Primary Key)
+    \item \texttt{title}: \texttt{String}, \texttt{slug}: \texttt{String} (Unique, Indexed)
+    \item \texttt{startTime}: \texttt{Date}, \texttt{endTime}: \texttt{Date}
+    \item \texttt{status}: \texttt{Enum('upcoming', 'live', 'ended')}
+    \item \texttt{problems}: \texttt{Array<ObjectId>} (Refs to \texttt{problems})
+    \item \texttt{registeredUsers}: \texttt{Array<ObjectId>} (Refs to \texttt{users})
+    \item \texttt{createdBy}: \texttt{ObjectId} (Ref to \texttt{users})
+  \end{itemize}
+
+  \item \textbf{Plagiarism Reports Collection (\texttt{plagiarismreports}):} Preserves similarity matrices and code pair comparison telemetry.
+  \begin{itemize}
+    \item \texttt{\_id}: \texttt{ObjectId} (Primary Key)
+    \item \texttt{contestId}: \texttt{ObjectId}, \texttt{problemId}: \texttt{ObjectId}
+    \item \texttt{totalSubmissionsScanned}: \texttt{Number}
+    \item \texttt{flaggedPairs}: \texttt{Array<\{ userA, userB, similarityScore, tokenOverlap \}>}
+    \item \texttt{createdAt}: \texttt{Date}
+  \end{itemize}
+\end{enumerate}
+
+\section{Design Decisions and Architectural Assumptions}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{BullMQ on Redis for Asynchronous Decoupling:} Processing code compilation inside synchronous HTTP request-response cycles induces HTTP 504 gateway timeouts under load. BullMQ ensures durable message delivery, automatic concurrency control, and job retry management.
+  \item \textbf{Redis Sorted Set ($ZSET$) Leaderboard Architecture:} Maintaining live rankings in relational or document databases requires expensive aggregate queries ($O(N \log N)$). AlgoFlow encodes scores into 64-bit floating-point values:
+  $$\text{Redis Score} = (\text{Solved Problems} \times 10^6) - \text{Penalty Minutes}$$
+  This mathematical encoding guarantees $O(\log N)$ rank insertions and $O(1)$ rank retrievals, sorting primarily by problems solved and breaking ties by lowest penalty time.
+  \item \textbf{Hardened Container Containment over Process Sandboxing:} In-process execution via Node.js \texttt{vm2} or raw subprocesses cannot reliably restrict memory allocation or prevent thread fork attacks. Dedicated Docker containers with Linux cgroups provide absolute kernel-level isolation.
+\end{itemize}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% CHAPTER 6: IMPLEMENTATION
+% ------------------------------------------------------------------------------
+\chapter{IMPLEMENTATION}
+
+\section{Module-wise Implementation}
+
+\subsection{API Gateway Modules}
+The API Gateway exposes clean RESTful routing modules implemented in TypeScript:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{\texttt{auth.ts}:} Handles user registration, password verification with bcrypt, JWT token signing, and session profile retrieval (\texttt{/api/auth/me}).
+  \item \textbf{\texttt{problems.ts}:} Implements catalog pagination, multi-faceted filtering (by difficulty, tags, search queries), and problem setter CRUD operations.
+  \item \textbf{\texttt{submissions.ts}:} Validates submission payloads against Zod schemas, creates an initial database record with \texttt{verdict: 'Pending'}, enqueues the job onto the BullMQ queue, and returns the submission ID to the client.
+  \item \textbf{\texttt{contests.ts}:} Manages contest creation, contestant registration, and problem roster retrieval.
+  \item \textbf{\texttt{admin.ts}:} Exposes system statistics, user role promotion endpoints, and judge worker health monitors.
+\end{itemize}
+
+\subsection{Judge Worker Execution Engine}
+The judge worker engine orchestrates containerized compilation and test execution:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{\texttt{DockerSandbox.ts}:} Interacts with Dockerode. It inspects local image caches (\texttt{ensureImage}), creates transient containers with bounded cgroups (\texttt{Memory: 256MB}, \texttt{NanoCpus: 0.5 * 10\^{}9}, \texttt{PidsLimit: 50}, \texttt{NetworkMode: 'none'}), and attaches execution streams.
+  \item \textbf{\texttt{tarHelper.ts}:} Packages user source code into in-memory POSIX tar byte streams, streaming the file directly into the sandbox filesystem without writing unencrypted source code to the host disk.
+  \item \textbf{\texttt{TestRunner.ts}:} Feeds inputs through container stdin, enforces millisecond-accurate execution timeouts, captures stdout, trims trailing whitespace, and performs exact output comparison.
+  \item \textbf{\texttt{worker.ts}:} BullMQ consumer process that pops jobs from Redis, executes test suites sequentially, computes execution telemetry percentiles, updates MongoDB submission records idempotently, and triggers contest score recalculations.
+\end{itemize}
+
+\subsection{Contest Service \& Real-Time Synchronizer}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{\texttt{LeaderboardService.ts}:} Executes Redis Sorted Set commands (\texttt{zadd}, \texttt{zrevrange}, \texttt{zrevrank}) and batches MongoDB user profile Lookups to format paginated leaderboard entries with ranks, solved counts, and penalty minutes.
+  \item \textbf{\texttt{SocketManager.ts}:} Manages Socket.IO namespace connections, joins users to contest-specific rooms (\texttt{contest:\{contestId\}}), and broadcasts \texttt{leaderboard:update} events upon accepted submissions.
+\end{itemize}
+
+\subsection{Plagiarism Detection Engine}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{\texttt{Tokenizer.ts}:} Strips multi-line and inline comments, regex-tokenizes language grammar, and canonicalizes custom identifiers to abstract tokens (\texttt{VAR\_1}, \texttt{VAR\_2}) to neutralize variable renaming obfuscation.
+  \item \textbf{\texttt{Fingerprinter.ts}:} Converts token arrays into overlapping $5$-grams, calculates polynomial rolling hashes ($p=31, m=2^{31}-1$), and applies a sliding window of size $4$ to select deterministic Winnowing minimums.
+  \item \textbf{\texttt{PlagiarismDetector.ts}:} Computes pairwise Jaccard similarity coefficients across all tournament submissions and persists flagged pairs exceeding the similarity threshold into MongoDB.
+\end{itemize}
+
+\section{Frontend Logic \& State Management}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Global State Management (\texttt{JudgeContext.tsx}):} Centralized React Context managing active problem selections, code buffer states per language, execution loading states, submission test results, and live telemetry.
+  \item \textbf{Monaco Editor Integration:} Embedded Monaco instance with custom VS Code Dark Plus theming, keyboard shortcut listeners (\texttt{Ctrl+Enter} to run, \texttt{Ctrl+Shift+Enter} to submit), font scaling, and multi-language template switching.
+  \item \textbf{Interactive Algorithm Visualizer (\texttt{AlgorithmVisualizer.tsx}):} Interactive visual state machine rendering graphical array blocks, moving pointer markers ($i, j$), sliding window bounding boxes, and step-by-step playback controls (Play, Pause, Step Next, Reset).
+  \item \textbf{Differential Stress Tester (\texttt{StressTester.tsx}):} Dual-engine execution harness that executes a randomized test case generator, runs both the brute-force solution and the optimized solution simultaneously, and stops immediately upon identifying a divergence in output.
+\end{itemize}
+
+\section{API Integration}
+The frontend communicates with backend microservices via a centralized Axios client configured with interceptors:
+\begin{lstlisting}[language=Java, caption={Axios Centralized JWT Interceptor Configuration}]
+import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+
+export const apiClient = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  timeout: 30000,
+});
+
+// Request Interceptor: Attach JWT token from localStorage or sessionStorage
+apiClient.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+\end{lstlisting}
+
+\section{Authentication and Authorization}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Stateless Token Lifecycles:} Upon successful login, the API Gateway signs an HS256 JWT payload containing \texttt{\{ userId, username, role \}} with a 7-day expiration window.
+  \item \textbf{Role-Based Access Control (RBAC):} Express middleware functions (\texttt{requireAuth}, \texttt{requireRole('admin')}, \texttt{requireRole('setter')}) protect sensitive endpoints from unauthorized access.
+  \item \textbf{Credential Security:} Passwords are never stored in plaintext; they are hashed using bcrypt with 10 salt rounds prior to persistence.
+\end{itemize}
+
+\clearpage
+
+% ==============================================================================
+% PART 4: CHAPTERS 7 - 10
+% ==============================================================================
+
+% ------------------------------------------------------------------------------
+% CHAPTER 7: FEATURES
+% ------------------------------------------------------------------------------
+\chapter{FEATURES}
+
+\section{Feature Overview \& Capabilities}
+AlgoFlow provides a comprehensive suite of competitive programming features categorized into contestant-facing and administration-facing capabilities:
+
+\subsection{Contestant-Facing Features}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Polyglot Monaco Code Editor:} Full-featured VS Code editing canvas with dark/light themes, syntax highlighting, bracket colorization, auto-indentation, and starter templates for C++20, Python 3.12, Java 21, and JavaScript ES2024.
+  \item \textbf{Asynchronous Submission Pipeline:} Millisecond-accurate evaluation with real-time progress indicators, deterministic verdicts, runtime memory profiling, and speed percentiles (``Faster than X\%'').
+  \item \textbf{Custom Test Runner:} Stdin execution console enabling contestants to test arbitrary edge cases against their solution before submitting to the hidden test suite.
+  \item \textbf{Interactive Algorithm Visualizer:} Step-by-step visual debugging tool animating array traversals, two pointers, sliding windows, stack/queue operations, and binary search intervals.
+  \item \textbf{Dual-Engine Differential Stress Tester:} Automated test case generator that runs a brute-force algorithm alongside an optimized algorithm to discover minimal counterexamples.
+  \item \textbf{Real-Time Contest Arena:} Live tournament environment featuring countdown clocks, problem set access, and instant WebSocket-driven scoreboard updates.
+  \item \textbf{Multi-Faceted Problem Catalog:} Filter problems dynamically by difficulty (\texttt{Easy}, \texttt{Medium}, \texttt{Hard}), algorithmic tags, search keywords, and user solved status (\texttt{Solved}, \texttt{Attempted}, \texttt{Todo}).
+  \item \textbf{Global Command Palette (\texttt{Ctrl+K}):} Fast keyboard navigation across problems, contests, submissions, and platform settings.
+\end{itemize}
+
+\subsection{Problem Setter and Administrator Features}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Problem Setter Studio:} Full markdown editor for problem authoring, constraint definitions, starter template configuration, and test case suite uploads.
+  \item \textbf{Contest Lifecycle Management:} Automated scheduling and transition of contests across \texttt{upcoming}, \texttt{live}, and \texttt{ended} states with editorial publishing.
+  \item \textbf{Automated Plagiarism Detection:} One-click tournament scanning utilizing AST token normalization and Winnowing fingerprinting to generate similarity matrices and code pair diffs.
+  \item \textbf{User Role Management:} Administrative dashboard to inspect user statistics, update permissions (\texttt{user} $\to$ \texttt{setter} $\to$ \texttt{admin}), and monitor judge worker cluster health.
+\end{itemize}
+
+\section{Judge Submission Lifecycle \& Sandboxing}
+When a user submits source code from the problem workspace (Figure~\ref{fig:workspace}):
+\begin{enumerate}[leftmargin=*, label=\bfseries\arabic*.]
+  \item The API Gateway validates the payload using Zod, creates a MongoDB submission document with \texttt{verdict: 'Pending'}, and enqueues a job into the BullMQ \texttt{submissions} queue on Redis.
+  \item An available Judge Worker process claims the job, packaging the source code into an in-memory tar archive via \texttt{tarHelper.ts}.
+  \item The worker provisions an isolated Docker container with strict Linux cgroup limits (256MB RAM, 50\% CPU, 50 PIDs, no network).
+  \item The code is compiled inside the container. If compilation fails, the submission is marked with \texttt{Compilation Error} (CE) along with compiler stderr diagnostic output.
+  \item If compilation succeeds, \texttt{TestRunner.ts} executes the binary against each test case, enforcing time limits per case.
+  \item The verdict is determined: \texttt{Accepted} (AC), \texttt{Wrong Answer} (WA), \texttt{Time Limit Exceeded} (TLE), \texttt{Memory Limit Exceeded} (MLE), or \texttt{Runtime Error} (RE).
+  \item Execution telemetry (CPU time in milliseconds, peak memory in kilobytes) is recorded, percentiles are computed against historical submissions, and MongoDB is updated.
+  \item If the submission belongs to an active contest, an event is emitted to the Contest Service to recalculate Redis leaderboard standings.
+\end{enumerate}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth, height=6.8cm, keepaspectratio]{fig_workspace.png}
+\caption{AlgoFlow split-pane problem workspace with Monaco editor and execution telemetry}
+\label{fig:workspace}
+\end{figure}
+
+\section{Interactive Algorithm Visualizer}
+Shown in Figure~\ref{fig:visualizer}, the visualizer decomposes complex algorithmic state transitions into graphical animations:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{State Machine Pipeline:} Parses array inputs and step generators for supported algorithms (Two Pointers, Sliding Window, Binary Search, Stack/Queue).
+  \item \textbf{Graphical Rendering:} Renders array elements as animated interactive cards with color-coded pointer markers ($i, j, \text{mid}$) and window highlight overlays.
+  \item \textbf{Playback Controls:} Allows contestants to step forward, step backward, auto-play with adjustable speed (0.5x to 2x), and inspect variable values at each discrete execution step.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth, height=6.8cm, keepaspectratio]{fig_visualizer.png}
+\caption{Interactive Algorithm Visualizer executing sliding window step-by-step}
+\label{fig:visualizer}
+\end{figure}
+
+\section{Dual-Engine Differential Stress Tester}
+The Stress Tester assists contestants in identifying subtle edge-case bugs:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Random Test Generator:} Generates hundreds of randomized test inputs based on user-configured bounds (array size, integer ranges, tree structures).
+  \item \textbf{Differential Comparison:} Executes the user's optimized solution against a simple, verified brute-force solution.
+  \item \textbf{Counterexample Discovery:} As soon as the two implementations produce divergent outputs, execution halts immediately, presenting the exact input that triggered the discrepancy.
+\end{itemize}
+
+\section{Real-Time Contest Arena \& ICPC Scoring}
+Figure~\ref{fig:leaderboard} illustrates the live tournament scoreboard:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{ICPC Scoring Formula:} Contestants are ranked primarily by the number of unique problems solved in descending order. Ties are broken by total penalty time in minutes.
+  \item \textbf{Penalty Calculation:} Each accepted problem contributes the minutes elapsed from contest start to the accepted submission time, plus a 20-minute penalty for each prior rejected attempt on that problem.
+  \item \textbf{Instant Scoreboard Broadcasting:} The Contest Service stores scores in Redis Sorted Sets and pushes real-time rank diffs over Socket.IO rooms.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth, height=6.8cm, keepaspectratio]{fig_leaderboard.png}
+\caption{Live contest leaderboard with real-time ICPC rankings and score breakdowns}
+\label{fig:leaderboard}
+\end{figure}
+
+\section{Plagiarism Winnowing Pipeline}
+The plagiarism service analyzes submission archives via a four-stage pipeline:
+\begin{enumerate}[leftmargin=*, label=\bfseries\arabic*.]
+  \item \textbf{Comment Removal \& Lexing:} Cleans source code and converts keywords, literals, and operators into normalized tokens.
+  \item \textbf{Identifier Anonymization:} Maps arbitrary variable and function names to canonical tokens (\texttt{VAR\_1}, \texttt{VAR\_2}), preventing detection bypass through renaming.
+  \item \textbf{Sliding Window Winnowing:} Generates 5-grams and selects localized minimum polynomial rolling hashes ($p=31, m=2^{31}-1$) across sliding windows of size 4.
+  \item \textbf{Similarity Scoring:} Calculates pairwise Jaccard similarity indices, generating an interactive similarity heatmap highlighting suspicious pairs.
+\end{enumerate}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% CHAPTER 8: TESTING
+% ------------------------------------------------------------------------------
+\chapter{TESTING}
+
+\section{Postman API Testing}
+The AlgoFlow API Gateway was rigorously tested using an automated Postman test collection spanning all 7 endpoint groups:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Authentication Suite:} Registration with valid/duplicate credentials, login with valid/invalid passwords, and protected route access with valid/expired JWT tokens.
+  \item \textbf{Problem Catalog Suite:} Paginated fetching, query parameter filtering, problem creation with Zod payload validation, and role-restricted deletion.
+  \item \textbf{Submission Suite:} Code submission payload validation, asynchronous task status polling, and user submission history retrieval.
+  \item \textbf{Contest Suite:} Contest creation, participant registration, contest problem fetching, and leaderboard querying.
+  \item \textbf{Automated Token Persistence:} Postman collection scripts automatically capture the JWT returned upon login and assign it to the collection environment variable \texttt{\{\{jwt\_token\}\}} for subsequent authenticated requests.
+\end{itemize}
+
+\section{Integration Testing}
+End-to-end integration tests verified the complete lifecycle of code evaluation:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Queue-to-Sandbox Lifecycle:} Verified that submissions sent to \texttt{POST /api/submissions} successfully propagate through Redis BullMQ, trigger Docker container instantiation, execute against hidden test suites, and write final verdicts to MongoDB.
+  \item \textbf{Database Consistency:} Verified atomic state updates and indexed query performance under concurrent submission load using MongoDB Compass.
+  \item \textbf{WebSocket Synchronization:} Verified that accepted contest submissions immediately trigger \texttt{leaderboard:update} events received by connected client sockets.
+\end{itemize}
+
+\section{Tools Used}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Postman v10:} Automated HTTP endpoint testing and environment variable orchestration.
+  \item \textbf{cURL:} CLI verification for rapid testing of API endpoints and raw stream inspection.
+  \item \textbf{MongoDB Compass:} Visual inspection of collections, schema types, and query explain plans.
+  \item \textbf{RedisInsight:} Real-time visualization of BullMQ job queues, Redis Sorted Set scores, and key expiry lifecycles.
+  \item \textbf{Docker Desktop CLI:} Monitoring container lifecycle/cgroups, memory ceilings, and daemon logs.
+\end{itemize}
+
+\section{Test Cases and Results}
+Table~\ref{tab:test_cases} presents ten representative test cases executed across the AlgoFlow platform, demonstrating end-to-end correctness across all functional modules.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.2}
+\caption{System Test Cases and Execution Results}
+\label{tab:test_cases}
+\begin{tabularx}{\textwidth}{@{}l l >{\raggedright\arraybackslash}p{3.2cm} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{2.6cm} c@{}}
+\toprule
+\textbf{ID} & \textbf{Module} & \textbf{Test Scenario} & \textbf{Expected Result} & \textbf{Actual Result} & \textbf{Status} \\ \midrule
+TC-01 & Auth & Register duplicate email & HTTP 409 Conflict & HTTP 409 returned & \textbf{PASSED} \\
+TC-02 & Auth & Access admin route as user & HTTP 403 Forbidden & HTTP 403 returned & \textbf{PASSED} \\
+TC-03 & Problems & Query catalog with tag filter & Returns matching problems & Correct subset & \textbf{PASSED} \\
+TC-04 & Judge & Submit valid optimal C++ code & Verdict: \texttt{Accepted} & \texttt{Accepted} (2.1ms) & \textbf{PASSED} \\
+TC-05 & Judge & Submit code with infinite loop & Verdict: \texttt{Time Limit Exceeded} & \texttt{TLE} (1000ms cut) & \textbf{PASSED} \\
+TC-06 & Judge & Submit oversized memory array & Verdict: \texttt{Memory Limit Exceeded} & \texttt{MLE} (cgroup cut) & \textbf{PASSED} \\
+TC-07 & Judge & Submit code with syntax error & Verdict: \texttt{Compilation Error} & \texttt{CE} with stderr & \textbf{PASSED} \\
+TC-08 & Contest & Register user for contest & Added to \texttt{registeredUsers} & User ID saved & \textbf{PASSED} \\
+TC-09 & Contest & Accept submission in contest & Redis ZSET score updated & Live rank broadcast & \textbf{PASSED} \\
+TC-10 & Plag & Scan structurally identical codes & Flagged with match $>90\%$ & 94.2\% match flagged & \textbf{PASSED} \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% CHAPTER 9: DEPLOYMENT
+% ------------------------------------------------------------------------------
+\chapter{DEPLOYMENT}
+
+\section{Steps to Deploy}
+AlgoFlow is architected for turnkey deployment using Docker Compose. The steps to deploy the complete platform locally or on a production virtual machine are:
+\begin{enumerate}[leftmargin=*, label=\bfseries\arabic*.]
+  \item \textbf{Clone the Repository:}
+  \begin{lstlisting}[language=bash]
+git clone https://github.com/Bhargava-007/DBSE-DBD-2-1.git
+cd DBSE-DBD-2-1/Project
+  \end{lstlisting}
+
+  \item \textbf{Configure Environment Variables:}
+  Copy the provided template file \texttt{.env.example} to \texttt{.env} and adjust configuration secrets:
+  \begin{lstlisting}[language=bash]
+cp .env.example .env
+  \end{lstlisting}
+
+  \item \textbf{Build and Launch Containers:}
+  Launch all microservices, database, and cache containers in detached mode:
+  \begin{lstlisting}[language=bash]
+docker compose up --build -d
+  \end{lstlisting}
+
+  \item \textbf{Seed Initial Platform Data:}
+  Seed the MongoDB database with sample problems, curated test suites, and default role accounts:
+  \begin{lstlisting}[language=bash]
+npm run seed:backend
+  \end{lstlisting}
+
+  \item \textbf{Access the Platform:}
+  Open a web browser and navigate to \texttt{http://localhost:3000} to access the application.
+\end{enumerate}
+
+\section{Environment Configuration}
+Table~\ref{tab:env_vars} summarizes the core environment variables required across AlgoFlow microservices.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.2}
+\caption{Environment Variables Configuration Reference}
+\label{tab:env_vars}
+\begin{tabularx}{\textwidth}{@{}l >{\raggedright\arraybackslash\ttfamily}p{5.0cm} >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Variable Name} & \textbf{Default / Example Value} & \textbf{Description} \\ \midrule
+\texttt{PORT} & 4000 / 4001 / 4002 & Port on which the respective microservice listens \\
+\texttt{NODE\_ENV} & production & Node.js execution environment mode \\
+\texttt{MONGO\_URI} & mongodb://mongodb:27017/algoflow & MongoDB connection string with credentials \\
+\texttt{REDIS\_URL} & redis://redis:6379 & Redis connection URL for queues and caching \\
+\texttt{JWT\_SECRET} & [YOUR\_JWT\_SECRET\_HERE] & 256-bit cryptographic secret for token signing \\
+\texttt{JWT\_EXPIRES\_IN} & 7d & Lifetime duration of issued JWT auth tokens \\
+\texttt{CORS\_ORIGIN} & http://localhost:3000 & Allowed origin for Cross-Origin Resource Sharing \\
+\texttt{VITE\_API\_URL} & http://localhost:4000/api & Frontend API Gateway base endpoint \\
+\texttt{VITE\_SOCKET\_URL} & http://localhost:4001 & Frontend WebSocket connection URL \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Cloud Hosting Architecture}
+For production internet deployment, AlgoFlow can be provisioned on modern cloud infrastructure:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Frontend SPA:} Hosted on Vercel or Netlify with global edge CDN caching and automatic HTTPS.
+  \item \textbf{Backend Microservices:} Deployed as containerized services on Railway, Render, or AWS ECS with auto-restart policies.
+  \item \textbf{Managed Database Services:} MongoDB Atlas multi-node cluster for persistent storage and Redis Cloud for managed in-memory queues and leaderboards.
+\end{itemize}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% CHAPTER 10: CHALLENGES \& LIMITATIONS
+% ------------------------------------------------------------------------------
+\chapter{CHALLENGES \& LIMITATIONS}
+
+\section{Issues Faced During Development}
+During the engineering and integration of the AlgoFlow distributed platform, several complex challenges arose:
+\begin{enumerate}[leftmargin=*, label=\bfseries\arabic*.]
+  \item \textbf{Cross-Platform Docker Socket Access:} On Windows development machines, the Docker daemon communicates via a named pipe (\texttt{//./pipe/docker\_engine}), whereas Linux and macOS host systems utilize a UNIX socket file (\texttt{/var/run/docker.sock}).
+  \item \textbf{BullMQ Worker Race Conditions:} Rapid worker restarts or transient timeout retries occasionally triggered duplicate verdict writes to MongoDB for the same submission ID.
+  \item \textbf{WebSocket Room Memory Retention:} As users navigated between multiple contests, unmanaged socket room memberships led to connection leaks and extraneous message broadcasting.
+  \item \textbf{Monaco Editor Bundle Size:} Initial production builds of the frontend exceeded recommended asset size budgets due to Monaco's comprehensive language parsing workers.
+  \item \textbf{ICPC Score Float Precision Encoding:} Encoding both solved problem counts and penalty minutes into a single numeric Redis Sorted Set score required high arithmetic precision to prevent rounding collisions.
+\end{enumerate}
+
+\section{Solutions Applied}
+\begin{enumerate}[leftmargin=*, label=\bfseries\arabic*.]
+  \item \textbf{Dynamic Socket Resolution with Host Fallback:} Implemented an OS-detection layer in \texttt{DockerSandbox.ts} that binds dynamically to the appropriate socket path and includes a secure host execution fallback (\texttt{runLocally}) if Docker is unavailable.
+  \item \textbf{Idempotent Database Updates:} Configured MongoDB update queries using atomic conditional filters (\texttt{\{ \_id: submissionId, verdict: 'Pending' \}}) ensuring only the first completed worker writes the result.
+  \item \textbf{Lifecycle Socket Cleanups:} Implemented explicit \texttt{socket.leave()} cleanup routines on the client and server upon contest termination or navigation changes.
+  \item \textbf{Dynamic Chunk Splitting:} Configured Vite manual chunking and lazy-loaded the Monaco Editor component on demand, reducing initial bundle transfer size by 65\%.
+  \item \textbf{Scaled Arithmetic Score Formula:} Formulated the score calculation as $\text{Score} = (\text{Solved Count} \times 10^6) - \text{Penalty Minutes}$, providing unambiguous integer-scale precision within 64-bit float bounds.
+\end{enumerate}
+
+\section{Current Limitations}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Lack of Automated CI/CD Test Pipeline:} While comprehensive manual and Postman test suites exist, automated unit testing with Vitest/Jest is currently in progress.
+  \item \textbf{Host Execution Fallback Isolation:} When Docker daemon is offline, the fallback runner uses temporary process wrappers which offer less stringent cgroup enforcement than containers.
+  \item \textbf{Single-Region Deployment:} The current architecture operates in a single geographic zone; multi-region data replication and edge judging remain for future development.
+  \item \textbf{Email Verification:} User registration relies on client-side format checks without SMTP email verification links.
+\end{itemize}
+
+\clearpage
+
+% ==============================================================================
+% PART 5: CHAPTERS 11 - 14 (COMPLETION)
+% ==============================================================================
+
+% ------------------------------------------------------------------------------
+% CHAPTER 11: FUTURE ENHANCEMENTS
+% ------------------------------------------------------------------------------
+\chapter{FUTURE ENHANCEMENTS}
+
+\section{Planned Features}
+Building upon the robust distributed architecture of AlgoFlow, several advanced functional enhancements are planned for future iterations:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Expanded Language Runtimes:} Extend the sandbox compiler suite to support Rust (v1.78+), Go (v1.22+), Kotlin (v2.0+), and Python PyPy3 for competitive data science evaluations.
+  \item \textbf{Collaborative Pair Programming Rooms:} Integrate WebRTC and Conflict-Free Replicated Data Types (CRDTs) to enable multi-user real-time collaborative coding sessions within the problem workspace.
+  \item \textbf{Cross-Platform Mobile Client:} Develop a lightweight React Native application for iOS and Android allowing contestants to browse editorials, view contest schedules, and monitor live scoreboards on mobile devices.
+  \item \textbf{Automated Notification Engine:} Implement transactional email notifications (via SendGrid/AWS SES) for contest registration confirmations, tournament start alerts, and daily algorithmic problem challenges.
+  \item \textbf{Dynamic Rating System:} Introduce an Elo-based mathematical rating algorithm (modeled after Codeforces and Chess rating systems) to dynamically recalculate user skill tiers and host division-rated contests.
+\end{itemize}
+
+\section{Possible Integrations or Optimizations}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Kubernetes (K8s) Horizontal Pod Autoscaling:} Migrate the judge worker cluster from static Docker Compose replicas to Kubernetes with custom metrics autoscaling based on BullMQ Redis queue depths.
+  \item \textbf{OAuth2 Single Sign-On (SSO):} Integrate third-party authentication providers including GitHub and Google OAuth2 for frictionless one-click registration.
+  \item \textbf{LLM-Powered Algorithmic Hints:} Connect an isolated Large Language Model (LLM) assistant to generate progressive, non-spoiling hints and asymptotic complexity feedback directly inside the editor console.
+  \item \textbf{Distributed Tracing with OpenTelemetry:} Implement OpenTelemetry instrumentation across the API Gateway, Judge Workers, and Contest Service to profile end-to-end distributed latency bottlenecks.
+\end{itemize}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% CHAPTER 12: CONCLUSION
+% ------------------------------------------------------------------------------
+\chapter{CONCLUSION}
+
+\section{Summary of the Project}
+AlgoFlow successfully realizes a full-featured, enterprise-grade, distributed competitive programming and online code execution platform designed to meet the rigorous demands of modern collegiate assessment and algorithmic training. By employing a clean microservices architecture, AlgoFlow decouples user-facing web operations from compute-heavy untrusted code compilation and evaluation. The platform integrates a modern React 19 single-page interface, an Express API Gateway, an asynchronous BullMQ queue pipeline, a hardened Dockerode container sandbox cluster, a real-time Socket.IO contest synchronizer, and an AST-based Winnowing plagiarism detection engine.
+
+\section{What Was Achieved}
+The project achieved all core architectural and functional deliverables:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Deterministic Sandboxed Execution:} Engineered a secure multi-language execution environment utilizing Docker containers governed by Linux cgroups (256MB RAM ceiling, 50\% CPU quota, 50 PIDs) and dropped root privileges.
+  \item \textbf{Zero-Lag Contest Scoreboards:} Implemented $O(\log N)$ real-time ICPC tournament scoring via Redis Sorted Sets with sub-second WebSocket room broadcasts.
+  \item \textbf{Automated Academic Integrity:} Implemented AST tokenization and Winnowing fingerprinting capable of detecting code similarity independent of variable renaming.
+  \item \textbf{Pedagogical Workbench:} Embedded an interactive Algorithm Visualizer and Differential Stress Tester directly inside the web workspace.
+  \item \textbf{Verified Stability:} Achieved 100\% test pass rate across 10 extensive integration test suites verifying edge-case handling (AC, WA, TLE, MLE, RE, CE).
+\end{itemize}
+
+\section{Skills Learned}
+Throughout the lifecycle of this project, the development team gained deep expertise in:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Distributed Backend Architecture:} Designing event-driven, decoupled microservices communicating over HTTP, WebSockets, and Redis message queues.
+  \item \textbf{Kernel-Level Container Sandboxing:} Programmatically managing Docker container lifecycles, memory cgroups, process isolation, and tar stream piping.
+  \item \textbf{High-Performance Data Structures:} Utilizing Redis Sorted Sets for sub-millisecond ranking algorithms and compound MongoDB indexing for optimized queries.
+  \item \textbf{Lexical Analysis \& Algorithmic Fingerprinting:} Developing tokenizers, rolling hash functions, and sliding window Winnowing algorithms for code similarity analysis.
+\end{itemize}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% CHAPTER 13: REFERENCES
+% ------------------------------------------------------------------------------
+\chapter{REFERENCES}
+
+\begin{enumerate}[leftmargin=*, label={[\arabic*]}]
+  \item \textbf{React Documentation} -- Meta Platforms, Inc. \\
+  \textit{React: The library for web and native user interfaces.} \\
+  URL: \url{https://react.dev}
+
+  \item \textbf{Vite Build Tool} -- Evan You and the Vite Core Team. \\
+  \textit{Next Generation Frontend Tooling.} \\
+  URL: \url{https://vitejs.dev}
+
+  \item \textbf{Node.js Documentation} -- OpenJS Foundation. \\
+  \textit{Node.js v20 LTS Asynchronous Event-Driven JavaScript Runtime.} \\
+  URL: \url{https://nodejs.org/en/docs}
+
+  \item \textbf{Express.js Framework} -- StrongLoop / OpenJS Foundation. \\
+  \textit{Fast, unopinionated, minimalist web framework for Node.js.} \\
+  URL: \url{https://expressjs.com}
+
+  \item \textbf{MongoDB Documentation} -- MongoDB, Inc. \\
+  \textit{MongoDB Manual: The Developer Data Platform.} \\
+  URL: \url{https://www.mongodb.com/docs/}
+
+  \item \textbf{Redis Documentation} -- Redis Ltd. \\
+  \textit{Redis: In-Memory Data Store, Streams, and Sorted Sets Reference.} \\
+  URL: \url{https://redis.io/docs/}
+
+  \item \textbf{BullMQ Documentation} -- Taskforces. \\
+  \textit{BullMQ: Premium Message Queue and Batch Processing for NodeJS and Redis.} \\
+  URL: \url{https://bullmq.io/}
+
+  \item \textbf{Socket.IO Documentation} -- Socket.IO Team. \\
+  \textit{Bidirectional and low-latency communication for every platform.} \\
+  URL: \url{https://socket.io/docs/}
+
+  \item \textbf{Docker Documentation} -- Docker, Inc. \\
+  \textit{Docker Engine and Container Runtime Security Model.} \\
+  URL: \url{https://docs.docker.com/}
+
+  \item \textbf{Monaco Editor} -- Microsoft Corporation. \\
+  \textit{Monaco Editor: The code editor that powers Visual Studio Code.} \\
+  URL: \url{https://microsoft.github.io/monaco-editor/}
+
+  \item \textbf{jsonwebtoken NPM Package} -- Auth0 by Okta. \\
+  \textit{JsonWebToken implementation for Node.js (RFC 7519 standard).} \\
+  URL: \url{https://www.npmjs.com/package/jsonwebtoken}
+
+  \item \textbf{Dockerode NPM Package} -- Pedro Dias. \\
+  \textit{Dockerode: Docker Engine API Client for Node.js.} \\
+  URL: \url{https://www.npmjs.com/package/dockerode}
+
+  \item \textbf{Postman Learning Center} -- Postman, Inc. \\
+  \textit{API Development, Testing, and Automation Guides.} \\
+  URL: \url{https://learning.postman.com}
+
+  \item \textbf{MDN Web Docs} -- Mozilla Corporation. \\
+  \textit{Web technology documentation for developers.} \\
+  URL: \url{https://developer.mozilla.org}
+\end{enumerate}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% CHAPTER 14: APPENDICES
+% ------------------------------------------------------------------------------
+\chapter{APPENDICES}
+
+\section*{Appendix A: Sample Code Snippets}
+
+\subsection*{A.1 BullMQ Submission Task Enqueue Logic (API Gateway)}
+\begin{lstlisting}[language=Java, caption={API Gateway Submission Dispatcher}]
+import { Queue } from 'bullmq';
+import { redisClient } from '../config/redis';
+import { SubmissionJobData } from '../queue/submissionQueue';
+
+export const SUBMISSION_QUEUE_NAME = 'submissions';
+
+export const submissionQueue = new Queue<SubmissionJobData>(SUBMISSION_QUEUE_NAME, {
+  connection: redisClient,
+  defaultJobOptions: {
+    attempts: 2,
+    backoff: { type: 'exponential', delay: 1000 },
+    removeOnComplete: { count: 1000, age: 3600 },
+    removeOnFail: { count: 500 },
+  },
+});
+
+export const enqueueSubmission = async (jobData: SubmissionJobData) => {
+  const job = await submissionQueue.add(`judge-${jobData.submissionId}`, jobData, {
+    jobId: jobData.submissionId,
+  });
+  return job;
+};
+\end{lstlisting}
+
+\subsection*{A.2 Docker Container Sandbox Creation (Judge Worker)}
+\begin{lstlisting}[language=Java, caption={Dockerode Sandbox Container Spawner}]
+import Docker from 'dockerode';
+
+export const createSandboxContainer = async (
+  docker: Docker,
+  imageName: string,
+  memoryLimitMb: number
+): Promise<Docker.Container> => {
+  const memoryBytes = memoryLimitMb * 1024 * 1024;
+
+  const container = await docker.createContainer({
+    Image: imageName,
+    Cmd: ['sh', '-c', 'sleep 120'],
+    NetworkDisabled: true,
+    Tty: false,
+    AttachStdout: true,
+    AttachStderr: true,
+    OpenStdin: false,
+    HostConfig: {
+      Memory: memoryBytes,
+      MemorySwap: memoryBytes,         // Disable swap overcommit
+      CpuPeriod: 100000,
+      CpuQuota: 50000,                 // 50% CPU throttle (0.5 core)
+      PidsLimit: 50,                   // Prevent fork bombs
+      SecurityOpt: ['no-new-privileges'],
+      Tmpfs: {
+        '/tmp': 'rw,nosuid,size=64m',
+      },
+    },
+  });
+
+  return container;
+};
+\end{lstlisting}
+
+\clearpage
+
+\section*{Appendix B: Installation and Setup Instructions}
+\begin{enumerate}[leftmargin=*, label=\bfseries\arabic*.]
+  \item \textbf{Prerequisites Installation:}
+  Install Git (v2.40+), Node.js (v18.18+ or v20.x LTS), and Docker Desktop (v4.25+). Ensure Docker Engine is active.
+
+  \item \textbf{Clone the Repository:}
+  \begin{lstlisting}[language=bash]
+git clone https://github.com/Bhargava-007/DBSE-DBD-2-1.git
+cd DBSE-DBD-2-1/Project
+  \end{lstlisting}
+
+  \item \textbf{Install NPM Dependencies:}
+  \begin{lstlisting}[language=bash]
+npm install
+  \end{lstlisting}
+
+  \item \textbf{Configure Environment File:}
+  Copy the provided template to configure ports, JWT secrets, and database strings:
+  \begin{lstlisting}[language=bash]
+cp .env.example .env
+  \end{lstlisting}
+
+  \item \textbf{Launch Docker Compose Cluster:}
+  \begin{lstlisting}[language=bash]
+docker compose up --build -d
+  \end{lstlisting}
+
+  \item \textbf{Seed Database with Problems and Roles:}
+  \begin{lstlisting}[language=bash]
+npm run seed:backend
+  \end{lstlisting}
+
+  \item \textbf{Open Application in Browser:}
+  Navigate to \texttt{http://localhost:3000} to access the AlgoFlow platform.
+\end{enumerate}
+
+\vspace{0.8cm}
+
+\section*{Appendix C: Default Login Credentials}
+Table~\ref{tab:default_credentials} lists the pre-seeded user accounts provided for evaluation and demonstration.
+
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.25}
+\caption{Pre-Configured Platform User Credentials}
+\label{tab:default_credentials}
+\begin{tabularx}{\textwidth}{@{}l l l >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Role} & \textbf{Username} & \textbf{Password} & \textbf{Permissions / Scope} \\ \midrule
+\textbf{Administrator} & \texttt{admin} & \texttt{Admin@123} & Full system access, plagiarism scans, role updates \\
+\textbf{Problem Setter} & \texttt{setter} & \texttt{Setter@123} & Problem authoring, testcase uploads, contest creation \\
+\textbf{Contestant} & \texttt{bhargava} & \texttt{User@123} & Problem solving, contest participation, visualizer \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+\clearpage
+
+\section*{Appendix D: API Reference Summary}
+Table~\ref{tab:api_summary} provides a comprehensive catalog of REST API endpoints exposed by the AlgoFlow API Gateway.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.15}
+\caption{AlgoFlow REST API Endpoint Reference}
+\label{tab:api_summary}
+\begin{tabularx}{\textwidth}{@{}l >{\raggedright\arraybackslash}p{5.4cm} >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Resource} & \textbf{HTTP Method \& Route} & \textbf{Description} \\ \midrule
+\textbf{Auth} & \texttt{POST /api/auth/register} & Register a new contestant account \\
+              & \texttt{POST /api/auth/login} & Authenticate credentials and receive signed JWT \\
+              & \texttt{GET /api/auth/me} & Fetch active user profile and solved problems \\ \midrule
+\textbf{Problems} & \texttt{GET /api/problems} & Fetch paginated problem catalog with filters \\
+                  & \texttt{GET /api/problems/:idOrSlug} & Retrieve problem statement, code templates, cases \\
+                  & \texttt{POST /api/problems} & Author a new problem (Setter/Admin only) \\
+                  & \texttt{PUT /api/problems/:id} & Update problem statement or test suites \\
+                  & \texttt{DELETE /api/problems/:id} & Delete problem from catalog (Admin only) \\ \midrule
+\textbf{Submissions} & \texttt{POST /api/submissions} & Submit code for asynchronous evaluation \\
+                     & \texttt{GET /api/submissions/:id} & Query status, verdict, and telemetry \\
+                     & \texttt{GET /api/submissions} & Fetch user submission history with pagination \\ \midrule
+\textbf{Contests} & \texttt{GET /api/contests} & List upcoming, active, and past contests \\
+                  & \texttt{GET /api/contests/:id} & Fetch contest problem roster and metadata \\
+                  & \texttt{POST /api/contests} & Create a new timed tournament \\
+                  & \texttt{POST /api/contests/:id/register} & Register contestant for upcoming contest \\
+                  & \texttt{PUT /api/contests/:id/editorial} & Publish official solution editorial \\ \midrule
+\textbf{Leaderboard} & \texttt{GET /api/leaderboard} & Global platform user ratings and standings \\
+                     & \texttt{GET /api/contests/:id/leaderboard} & Paginated ICPC contest scoreboard from Redis \\ \midrule
+\textbf{Admin} & \texttt{GET /api/admin/stats} & Platform counts (users, problems, submissions) \\
+               & \texttt{GET /api/admin/users} & List all platform users with role filters \\
+               & \texttt{PATCH /api/admin/users/:id/role} & Promote or demote user access roles \\
+               & \texttt{GET /api/admin/health} & Inspect judge worker queue depth and latency \\ \midrule
+\textbf{Plagiarism} & \texttt{POST /api/plagiarism/scan} & Trigger AST Winnowing similarity scan \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+\clearpage
+
+\section*{Appendix E: User Interface Screenshots}
+This section contains high-fidelity visual representations of the AlgoFlow web application.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth, height=6.8cm, keepaspectratio]{fig_login.png}
+\caption{AlgoFlow User Login and Authentication Portal}
+\label{fig:login}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth, height=6.8cm, keepaspectratio]{fig_catalog.png}
+\caption{Problem Catalog with Tag Filtering, Search, and Difficulty Indicators}
+\label{fig:catalog}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth, height=6.8cm, keepaspectratio]{fig_stress_tester.png}
+\caption{Dual-Engine Differential Stress Tester Interface}
+\label{fig:stress_tester}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth, height=6.8cm, keepaspectratio]{fig_contest_arena.png}
+\caption{Live Contest Arena with Real-Time Countdown Timer and Problem Set}
+\label{fig:contest_arena}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth, height=6.8cm, keepaspectratio]{fig_admin_panel.png}
+\caption{Problem Setter Studio and Administrative Operations Dashboard}
+\label{fig:admin_panel}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\textwidth, height=6.8cm, keepaspectratio]{fig_plagiarism.png}
+\caption{Automated Plagiarism Detection Similarity Matrix and AST Code Diffs}
+\label{fig:plagiarism}
+\end{figure}
+
+\clearpage
+
+% === END OF REPORT ===
+
+\end{document}

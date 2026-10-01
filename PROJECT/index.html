@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlgoFlow — Distributed Code Judge & Assessment Platform</title>
+    <meta name="description" content="Production-grade competitive programming and developer interview assessment platform." />
+    <script>
+      (function() {
+        var theme = localStorage.getItem('algoflow_theme') || 'dark';
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+        document.documentElement.classList.toggle('light', theme === 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <div id="root" class="min-h-screen flex flex-col flex-1"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
